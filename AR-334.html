@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axis CRM - Clients | Sarah Chen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'axis-orange': '#D34108',
+                        'axis-orange-light': '#EA6921',
+                        'axis-slate': '#3B485B',
+                        'axis-charcoal': '#2B3544',
+                        'axis-gray': '#F5F5F5',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .call-pulse {
+            animation: pulse-orange 1.5s infinite;
+        }
+        
+        @keyframes pulse-orange {
+            0%, 100% {
+                opacity: 1;
+                box-shadow: 0 0 0 0 rgba(211, 65, 8, 0.7);
+            }
+            50% {
+                opacity: 0.8;
+                box-shadow: 0 0 0 10px rgba(211, 65, 8, 0);
+            }
+        }
+    </style>
+</head>
+<body class="bg-axis-gray font-sans">
+    <!-- Main Layout -->
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-axis-slate transform -translate-x-full transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-0">
+            <div class="flex items-center justify-between h-16 px-6 border-b border-white border-opacity-10">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-axis-orange rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">X</span>
+                    </div>
+                    <span class="text-white font-semibold text-xl">AXIS</span>
+                </div>
+                <button id="closeSidebar" class="lg:hidden text-white">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <nav class="mt-8 px-4">
+                <div class="space-y-2">
+                    <a href="#" class="flex items-center px-4 py-3 text-white bg-axis-orange bg-opacity-20 rounded-lg">
+                        <i data-lucide="users" class="w-5 h-5 mr-3 text-axis-orange"></i>
+                        <span class="text-axis-orange font-medium">Clients</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-white text-opacity-80 hover:bg-white hover:bg-opacity-10 rounded-lg">
+                        <i data-lucide="user-plus" class="w-5 h-5 mr-3"></i>
+                        <span>Leads</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-white text-opacity-80 hover:bg-white hover:bg-opacity-10 rounded-lg">
+                        <i data-lucide="clipboard-check" class="w-5 h-5 mr-3"></i>
+                        <span>Applications</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-white text-opacity-80 hover:bg-white hover:bg-opacity-10 rounded-lg">
+                        <i data-lucide="file-text" class="w-5 h-5 mr-3"></i>
+                        <span>Policies</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-white text-opacity-80 hover:bg-white hover:bg-opacity-10 rounded-lg">
+                        <i data-lucide="check-square" class="w-5 h-5 mr-3"></i>
+                        <span>Tasks</span>
+                    </a>
+                    <a href="#" class="flex items-center px-4 py-3 text-white text-opacity-80 hover:bg-white hover:bg-opacity-10 rounded-lg">
+                        <i data-lucide="calendar" class="w-5 h-5 mr-3"></i>
+                        <span>Calendar</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 lg:ml-0">
+            <!-- Header -->
+            <header class="bg-white shadow-sm border-b border-gray-200 px-4 lg:px-8 h-16 flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <button id="openSidebar" class="lg:hidden text-gray-600">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                    <nav class="hidden sm:flex items-center space-x-2 text-sm text-gray-600">
+                        <a href="#" class="hover:text-axis-orange">Clients</a>
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        <span class="text-axis-charcoal font-medium">Sarah Chen</span>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-600 hover:text-axis-orange">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                    </button>
+                    <div class="w-8 h-8 bg-axis-orange rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-medium">JW</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div class="p-4 lg:p-8">
+                <!-- Client Header -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-axis-orange rounded-full flex items-center justify-center">
+                                <span class="text-white font-semibold text-lg">SC</span>
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-semibold text-axis-charcoal">Sarah Chen</h1>
+                                <p class="text-gray-600">Client ID: CLT-2024-001847</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 mt-4 lg:mt-0">
+                            <button class="flex items-center px-4 py-2 bg-axis-orange text-white rounded-lg hover:bg-axis-orange-light transition-colors">
+                                <i data-lucide="phone" class="w-4 h-4 mr-2"></i>
+                                Call Mobile
+                            </button>
+                            <button id="callLandlineBtn" class="flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                <i data-lucide="phone" class="w-4 h-4 mr-2"></i>
+                                Call Home
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information Card -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+                    <h2 class="text-lg font-semibold text-axis-charcoal mb-4">Contact Information</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Mobile Phone</label>
+                                    <div class="flex items-center justify-between p-3 border border-gray-300 rounded-lg bg-gray-50">
+                                        <span class="text-axis-charcoal">+61 438 297 584</span>
+                                        <button id="callMobileBtn" class="text-axis-orange hover:text-axis-orange-light transition-colors">
+                                            <i data-lucide="phone" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Home Phone</label>
+                                    <div class="flex items-center justify-between p-3 border border-gray-300 rounded-lg bg-gray-50">
+                                        <span class="text-axis-charcoal">+61 2 9876 5432</span>
+                                        <button id="callHomeBtn" class="text-axis-orange hover:text-axis-orange-light transition-colors">
+                                            <i data-lucide="phone" class="w-4 h-4"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                    <div class="p-3 border border-gray-300 rounded-lg bg-gray-50">
+                                        <span class="text-axis-charcoal">sarah.chen@email.com</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                                    <div class="p-3 border border-gray-300 rounded-lg bg-gray-50">
+                                        <div class="text-axis-charcoal">
+                                            <div>42 Harbour Street</div>
+                                            <div>Sydney NSW 2000</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                                    <div class="p-3 border border-gray-300 rounded-lg bg-gray-50">
+                                        <span class="text-axis-charcoal">15 March 1985</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <h2 class="text-lg font-semibold text-axis-charcoal mb-4">Recent Activity</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start space-x-3 p-4 border border-gray-200 rounded-lg">
+                            <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center mt-0.5">
+                                <i data-lucide="phone" class="w-4 h-4 text-green-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-axis-charcoal font-medium">Outbound call to mobile</p>
+                                    <span class="text-sm text-gray-500">2 hours ago</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">Duration: 8 minutes 32 seconds</p>
+                                <p class="text-sm text-gray-600">Outcome: Policy review scheduled for next week</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 p-4 border border-gray-200 rounded-lg">
+                            <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mt-0.5">
+                                <i data-lucide="mail" class="w-4 h-4 text-blue-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-axis-charcoal font-medium">Email sent: Policy documents</p>
+                                    <span class="text-sm text-gray-500">Yesterday</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">Annual policy review documents</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 p-4 border border-gray-200 rounded-lg">
+                            <div class="w-8 h-8 bg-orange-100 rounded-full flex items-center justify-center mt-0.5">
+                                <i data-lucide="phone" class="w-4 h-4 text-orange-600"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <p class="text-axis-charcoal font-medium">Missed call - callback requested</p>
+                                    <span class="text-sm text-gray-500">3 days ago</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mt-1">Left voicemail regarding policy update</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call Modal -->
+    <div id="callModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <!-- Pre-call Context -->
+            <div id="preCallContext" class="text-center">
+                <div class="mb-4">
+                    <div class="w-16 h-16 bg-axis-orange rounded-full flex items-center justify-center mx-auto mb-3">
+                        <span class="text-white font-semibold text-xl">SC</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-axis-charcoal">Sarah Chen</h3>
+                    <p id="callingNumber" class="text-gray-600 mb-4">+61 438 297 584</p>
+                </div>
+
+                <!-- Recent Context -->
+                <div class="bg-axis-gray rounded-lg p-4 mb-6 text-left">
+                    <h4 class="font-medium text-axis-charcoal mb-2">Recent Context</h4>
+                    <ul class="text-sm text-gray-600 space-y-1">
+                        <li>• Last call: 2 hours ago (8m 32s)</li>
+                        <li>• Policy review scheduled</li>
+                        <li>• Life Insurance Policy: LI-2019-3847</li>
+                        <li>• Premium: $2,450/year</li>
+                    </ul>
+                </div>
+
+                <button id="startCall" class="w-full bg-axis-orange text-white px-6 py-3 rounded-lg font-medium hover:bg-axis-orange-light transition-colors flex items-center justify-center">
+                    <i data-lucide="phone" class="w-5 h-5 mr-2"></i>
+                    Start Call
+                </button>
+            </div>
+
+            <!-- Active Call Interface -->
+            <div id="activeCall" class="text-center hidden">
+                <div class="mb-6">
+                    <div class="w-20 h-20 bg-axis-orange rounded-full flex items-center justify-center mx-auto mb-3 call-pulse">
+                        <span class="text-white font-semibold text-2xl">SC</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-axis-charcoal">Sarah Chen</h3>
+                    <p class="text-gray-600 mb-2">+61 438 297 584</p>
+                    <p id="callTimer" class="text-lg font-mono text-axis-orange">00:00</p>
+                </div>
+
+                <!-- Call Controls -->
+                <div class="flex justify-center space-x-4 mb-6">
+                    <button id="muteBtn" class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
+                        <i data-lucide="mic" class="w-5 h-5 text-gray-600"></i>
+                    </button>
+                    <button class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors">
+                        <i data-lucide="pause" class="w-5 h-5 text-gray-600"></i>
+                    </button>
+                    <button id="endCall" class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center hover:bg-red-600 transition-colors">
+                        <i data-lucide="phone-off" class="w-5 h-5 text-white"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Call Outcome -->
+            <div id="callOutcome" class="hidden">
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-axis-charcoal mb-4">Call Complete</h3>
+                    <div class="bg-axis-gray rounded-lg p-4 mb-4">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-600">Duration:</span>
+                            <span id="finalDuration" class="text-axis-charcoal font-medium">5m 23s</span>
+                        </div>
+                        <div class="flex justify-between text-sm mt-2">
+                            <span class="text-gray-600">Contact:</span>
+                            <span class="text-axis-charcoal font-medium">Sarah Chen</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Call Outcome</label>
+                        <select id="callOutcomeSelect" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-axis-orange focus:border-axis-orange">
+                            <option value="">Select outcome...</option>
+                            <option value="callback">Callback requested</option>
+                            <option value="quote">Quote needed</option>
+                            <option value="application">Application discussed</option>
+                            <option value="policy-review">Policy review scheduled</option>
+                            <option value="claim-inquiry">Claim inquiry</option>
+                            <option value="completed">Call completed - no follow-up</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Notes</label>
+                        <textarea id="callNotes" rows="3" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-axis-orange focus:border-axis-orange" placeholder="Add call notes..."></textarea>
+                    </div>
+
+                    <div class="flex space-x-3">
+                        <button id="saveCall" class="flex-1 bg-axis-orange text-white px-4 py-2 rounded-lg font-medium hover:bg-axis-orange-light transition-colors">
+                            Save & Create Task
+                        </button>
+                        <button id="closeCallModal" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transform translate-x-full transition-transform duration-300 z-50">
+        <div class="flex items-center">
+            <i data-lucide="check-circle" class="w-5 h-5 mr-2"></i>
+            <span id="toastMessage">Call logged and task created successfully</span>
+        </div>
+    </div>
+
+    <!-- Task Creation Modal -->
+    <div id="taskModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full p-6">
+            <h3 class="text-lg font-semibold text-axis-charcoal mb-4">Task Created</h3>
+            <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                <div class="flex items-start">
+                    <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mt-0.5 mr-3"></i>
+                    <div>
+                        <p class="text-green-800 font-medium">Policy review follow-up</p>
+                        <p class="text-green-600 text-sm mt-1">Due: Tomorrow at 2:00 PM</p>
+                        <p class="text-green-600 text-sm">Assigned to: You</p>
+                    </div>
+                </div>
+            </div>
+            <button id="closeTaskModal" class="w-full bg-axis-orange text-white px-4 py-2 rounded-lg font-medium hover:bg-axis-orange-light transition-colors">
+                Got it
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mobile sidebar toggle
+        const sidebar = document.getElementById('sidebar');
+        const openSidebarBtn = document.getElementById('openSidebar');
+        const closeSidebarBtn = document.getElementById('closeSidebar');
+
+        openSidebarBtn?.addEventListener('click', () => {
+            sidebar.classList.remove('-translate-x-full');
+        });
+
+        closeSidebarBtn?.addEventListener('click', () => {
+            sidebar.classList.add('-translate-x-full');
+        });
+
+        // Call functionality
+        const callModal = document.getElementById('callModal');
+        const preCallContext = document.getElementById('preCallContext');
+        const activeCall = document.getElementById('activeCall');
+        const callOutcome = document.getElementById('callOutcome');
+        const callButtons = [
+            document.getElementById('callMobileBtn'),
+            document.getElementById('callHomeBtn'),
+            document.getElementById('callLandlineBtn')
+        ];
+
+        let callTimer = null;
+        let callDuration = 0;
+
+        // Add click handlers to all call buttons
+        callButtons.forEach(btn => {
+            if (btn) {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const phoneNumber = btn.closest('.flex') ? 
+                        btn.closest('.flex').querySelector('span').textContent :
+                        '+61 2 9876 5432'; // Default for landline
+                    
+                    document.getElementById('callingNumber').textContent = phoneNumber;
+                    callModal.classList.remove('hidden');
+                    preCallContext.classList.remove('hidden');
+                    activeCall.classList.add('hidden');
+                    callOutcome.classList.add('hidden');
+                });
+            }
+        });
+
+        // Start call
+        document.getElementById('startCall')?.addEventListener('click', () => {
+            preCallContext.classList.add('hidden');
+            activeCall.classList.remove('hidden');
+            startCallTimer();
+        });
+
+        // Call timer
+        function startCallTimer() {
+            callDuration = 0;
+            callTimer = setInterval(() => {
+                callDuration++;
+                const minutes = Math.floor(callDuration / 60).toString().padStart(2, '0');
+                const seconds = (callDuration % 60).toString().padStart(2, '0');
+                document.getElementById('callTimer').textContent = `${minutes}:${seconds}`;
+            }, 1000);
+        }
+
+        // Mute toggle
+        document.getElementById('muteBtn')?.addEventListener('click', function() {
+            const icon = this.querySelector('i');
+            const isMuted = icon.getAttribute('data-lucide') === 'mic-off';
+            
+            if (isMuted) {
+                icon.setAttribute('data-lucide', 'mic');
+                this.classList.remove('bg-red-100');
+                this.classList.add('bg-gray-100');
+            } else {
+                icon.setAttribute('data-lucide', 'mic-off');
+                this.classList.remove('bg-gray-100');
+                this.classList.add('bg-red-100');
+            }
+            lucide.createIcons();
+        });
+
+        // End call
+        document.getElementById('endCall')?.addEventListener('click', () => {
+            if (callTimer) {
+                clearInterval(callTimer);
+                callTimer = null;
+            }
+            
+            activeCall.classList.add('hidden');
+            callOutcome.classList.remove('hidden');
+            
+            const minutes = Math.floor(callDuration / 60);
+            const seconds = callDuration % 60;
+            document.getElementById('finalDuration').textContent = `${minutes}m ${seconds}s`;
+        });
+
+        // Save call and create task
+        document.getElementById('saveCall')?.addEventListener('click', () => {
+            const outcome = document.getElementById('callOutcomeSelect').value;
+            const notes = document.getElementById('callNotes').value;
+            
+            if (!outcome) {
+                alert('Please select a call outcome');
+                return;
+            }
+            
+            callModal.classList.add('hidden');
+            
+            // Show success toast
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-x-full');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+            }, 3000);
+            
+            // Show task modal after a brief delay
+            setTimeout(() => {
+                document.getElementById('taskModal').classList.remove('hidden');
+            }, 500);
+        });
+
+        // Close modals
+        document.getElementById('closeCallModal')?.addEventListener('click', () => {
+            callModal.classList.add('hidden');
+            if (callTimer) {
+                clearInterval(callTimer);
+                callTimer = null;
+            }
+        });
+
+        document.getElementById('closeTaskModal')?.addEventListener('click', () => {
+            document.getElementById('taskModal').classList.add('hidden');
+        });
+
+        // Close modal when clicking outside
+        callModal?.addEventListener('click', (e) => {
+            if (e.target === callModal) {
+                callModal.classList.add('hidden');
+                if (callTimer) {
+                    clearInterval(callTimer);
+                    callTimer = null;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
