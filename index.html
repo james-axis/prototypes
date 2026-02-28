@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Axis CRM — Prototypes</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23ff4405' d='M0,12.8C0,8.32,0,6.08.87,4.37c.77-1.51,1.99-2.73,3.5-3.5C6.08,0,8.32,0,12.8,0h6.4C23.68,0,25.92,0,27.63.87c1.51.77,2.73,1.99,3.5,3.5.87,1.71.87,3.95.87,8.43v6.4c0,4.48,0,6.72-.87,8.43-.77,1.51-1.99,2.73-3.5,3.5-1.71.87-3.95.87-8.43.87h-6.4c-4.48,0-6.72,0-8.43-.87-1.51-.77-2.73-1.99-3.5-3.5C0,25.92,0,23.68,0,19.2v-6.4Z'/%3E%3Cpath fill='%23fff' d='M13.43,15.89l-9.43,10.27h4.86L28,5.35h-4.99l-7.08,7.63-7.08-7.63h-4.86l9.43,10.54Z'/%3E%3Cpath fill='%23fff' d='M23.01,26.16h4.99l-9.16-9.85c-1.44,2.37-.88,4.23-.42,4.86l4.58,4.99Z'/%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -26,65 +27,83 @@
     <style>
         * { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(20px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        @keyframes cardIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-        .backdrop { animation: fadeIn 0.25s ease-out forwards; }
-        .modal { animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-        .card-anim { animation: cardIn 0.25s ease-out forwards; opacity: 0; }
-        .card-item { transition: all 0.12s ease; }
-        .card-item:hover { background: #FAFAFA; }
-        .card-item:active { transform: scale(0.995); }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes cardIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .backdrop { animation: fadeIn 0.2s ease-out forwards; }
+        .panel { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .card-anim { animation: cardIn 0.2s ease-out forwards; opacity: 0; }
+
+        /* Card hover: faint orange border + warm glow — matches CRM pattern */
+        .proto-card {
+            border: 1px solid transparent;
+            border-radius: 12px;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+        .proto-card:hover {
+            border-color: rgba(211, 65, 8, 0.22);
+            box-shadow: 0 0 0 3px rgba(211, 65, 8, 0.06), 0 1px 4px rgba(211, 65, 8, 0.05);
+        }
+
         .scroll-area::-webkit-scrollbar { width: 3px; }
         .scroll-area::-webkit-scrollbar-track { background: transparent; }
         .scroll-area::-webkit-scrollbar-thumb { background: #E5E7EB; border-radius: 3px; }
-        .scroll-area::-webkit-scrollbar-thumb:hover { background: #D1D5DB; }
     </style>
 </head>
-<body class="min-h-screen bg-gray-100/80">
+<body class="min-h-screen bg-gray-200/60">
 
     <!-- Backdrop -->
-    <div class="backdrop fixed inset-0 bg-axis-charcoal/30 backdrop-blur-[2px] z-40"></div>
+    <div class="backdrop fixed inset-0 bg-black/20 z-40"></div>
 
-    <!-- Modal -->
-    <div class="modal fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl shadow-[0_25px_60px_-12px_rgba(0,0,0,0.15)] w-full max-w-[440px] overflow-hidden">
+    <!-- Panel -->
+    <div class="panel fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] w-full max-w-[420px] overflow-hidden">
 
-            <!-- Icon + Header -->
-            <div class="pt-7 pb-4 px-6 text-center">
-                <div class="w-16 h-16 rounded-full bg-axis-orange/8 flex items-center justify-center mx-auto mb-4">
-                    <svg class="w-8 h-8 text-axis-orange" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
+            <!-- Header -->
+            <div class="px-5 pt-5 pb-3">
+                <div class="flex items-start justify-between">
+                    <div class="flex items-center gap-3">
+                        <!-- Axis logo SVG inline -->
+                        <svg class="w-9 h-9 flex-shrink-0" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#ff4405" d="M0,12.8C0,8.32,0,6.08.87,4.37c.77-1.51,1.99-2.73,3.5-3.5C6.08,0,8.32,0,12.8,0h6.4C23.68,0,25.92,0,27.63.87c1.51.77,2.73,1.99,3.5,3.5.87,1.71.87,3.95.87,8.43v6.4c0,4.48,0,6.72-.87,8.43-.77,1.51-1.99,2.73-3.5,3.5-1.71.87-3.95.87-8.43.87h-6.4c-4.48,0-6.72,0-8.43-.87-1.51-.77-2.73-1.99-3.5-3.5C0,25.92,0,23.68,0,19.2v-6.4Z"/>
+                            <path fill="#fff" d="M13.43,15.89l-9.43,10.27h4.86L28,5.35h-4.99l-7.08,7.63-7.08-7.63h-4.86l9.43,10.54Z"/>
+                            <path fill="#fff" d="M23.01,26.16h4.99l-9.16-9.85c-1.44,2.37-.88,4.23-.42,4.86l4.58,4.99Z"/>
+                        </svg>
+                        <div>
+                            <h1 class="text-[17px] font-bold text-axis-charcoal leading-tight">Prototypes</h1>
+                            <p id="subtitle" class="text-[12px] text-gray-400 mt-0.5">Loading...</p>
+                        </div>
+                    </div>
+                    <a href="https://axiscrm.atlassian.net/jira/polaris/projects/AR/ideas" target="_blank" class="mt-1 text-[11px] text-gray-400 hover:text-axis-orange transition-colors font-medium">
+                        Roadmap →
+                    </a>
                 </div>
-                <h1 class="text-[19px] font-bold text-axis-charcoal">Prototypes</h1>
-                <p class="text-[13px] text-gray-400 mt-1">Select an interactive prototype to preview</p>
             </div>
 
-            <!-- Tabs + Sort row -->
-            <div class="mx-6 flex items-center justify-between border-b border-gray-100">
-                <div class="flex items-center">
-                    <button id="tab-all" onclick="setFilter('all')" class="tab-btn relative px-3 pb-2.5 text-[13px] font-semibold text-axis-orange">
-                        All <span id="count-all" class="ml-0.5 text-[11px] bg-axis-orange/10 text-axis-orange px-1.5 py-[1px] rounded-full font-medium">0</span>
-                        <div class="absolute bottom-0 left-0 right-0 h-[2px] bg-axis-orange rounded-full"></div>
+            <!-- Tabs -->
+            <div class="mx-5 flex items-center justify-between border-b border-gray-100">
+                <div class="flex items-center gap-0">
+                    <button id="tab-all" onclick="setFilter('all')" class="tab-btn relative px-3 pb-2 text-[13px] font-semibold text-axis-orange">
+                        Active <span id="count-all" class="ml-0.5 text-[11px] font-medium text-axis-orange">0</span>
+                        <div class="tab-bar absolute bottom-0 left-0 right-0 h-[2px] bg-axis-orange rounded-full"></div>
                     </button>
-                    <button id="tab-month" onclick="setFilter('month')" class="tab-btn relative px-3 pb-2.5 text-[13px] font-medium text-gray-400 hover:text-gray-500 ml-1">
+                    <button id="tab-month" onclick="setFilter('month')" class="tab-btn relative px-3 pb-2 text-[13px] font-medium text-gray-400 hover:text-gray-500">
                         This month
                     </button>
                 </div>
-                <button onclick="toggleSort()" class="flex items-center gap-1 pb-2.5 text-[11px] font-medium text-gray-400 hover:text-gray-600 transition-colors">
+                <button onclick="toggleSort()" class="flex items-center gap-1 pb-2 text-[12px] font-medium text-gray-400 hover:text-gray-600 transition-colors">
                     <svg id="sort-arrow" class="w-3 h-3 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4M16 15l-4 4-4-4" />
                     </svg>
                     <span id="sort-text">Newest first</span>
                 </button>
             </div>
 
-            <!-- Cards list -->
-            <div id="list" class="scroll-area max-h-[370px] overflow-y-auto py-2 px-3">
+            <!-- Card list -->
+            <div id="list" class="scroll-area max-h-[400px] overflow-y-auto py-3 px-3">
 
                 <!-- Loading -->
-                <div id="state-loading" class="py-14 text-center">
-                    <svg class="w-5 h-5 animate-spin text-gray-300 mx-auto mb-2" fill="none" viewBox="0 0 24 24">
+                <div id="state-loading" class="py-16 text-center">
+                    <svg class="w-5 h-5 animate-spin text-axis-orange/40 mx-auto mb-2.5" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
                     </svg>
@@ -92,28 +111,19 @@
                 </div>
 
                 <!-- Empty -->
-                <div id="state-empty" class="py-14 text-center hidden">
-                    <div class="w-11 h-11 rounded-full bg-gray-50 flex items-center justify-center mx-auto mb-3">
-                        <svg class="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-                        </svg>
-                    </div>
+                <div id="state-empty" class="py-16 text-center hidden">
+                    <svg class="w-10 h-10 text-gray-200 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
                     <p class="text-[13px] font-medium text-gray-400">No prototypes yet</p>
                     <p class="text-[11px] text-gray-300 mt-1">Send /idea in Telegram to get started</p>
                 </div>
             </div>
 
             <!-- Footer -->
-            <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <div class="w-5 h-5 rounded bg-axis-orange flex items-center justify-center flex-shrink-0">
-                        <span class="text-white text-[8px] font-bold tracking-tight leading-none">AX</span>
-                    </div>
-                    <span class="text-[11px] text-gray-400">Axis CRM · PM Agent</span>
-                </div>
-                <a href="https://axiscrm.atlassian.net/jira/polaris/projects/AR/ideas" target="_blank" class="text-[11px] text-axis-orange hover:text-axis-orange-light font-medium transition-colors">
-                    View Roadmap →
-                </a>
+            <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between">
+                <span class="text-[11px] text-gray-300">Auto-generated by PM Agent</span>
+                <span class="text-[11px] text-gray-300">james-axis.github.io/prototypes</span>
             </div>
         </div>
     </div>
@@ -137,12 +147,13 @@
             if (!htmls.length) {
                 document.getElementById('state-loading').classList.add('hidden');
                 document.getElementById('state-empty').classList.remove('hidden');
+                document.getElementById('subtitle').textContent = '0 prototypes';
                 return;
             }
 
             protos = await Promise.all(htmls.map(async f => {
                 const key = f.name.replace('.html', '');
-                let date = null, summary = key;
+                let date = null, summary = key, commitMsg = '';
                 try {
                     const cr = await fetch(
                         'https://api.github.com/repos/' + REPO + '/commits?path=' + f.name + '&per_page=1',
@@ -152,13 +163,14 @@
                         const commits = await cr.json();
                         if (commits.length) {
                             date = new Date(commits[0].commit.author.date);
-                            const msg = commits[0].commit.message || '';
-                            const m = msg.match(/(?:Prototype for|Update prototype:)\s*\S+:\s*(.*)/i);
+                            commitMsg = commits[0].commit.message || '';
+                            const m = commitMsg.match(/(?:Prototype for|Update prototype:)\s*\S+:\s*(.*)/i);
                             if (m) summary = m[1].trim();
                         }
                     }
                 } catch(e) {}
-                return { key, summary, date, url: PAGES + '/' + f.name, size: f.size };
+                const isUpdate = commitMsg.toLowerCase().startsWith('update');
+                return { key, summary, date, url: PAGES + '/' + f.name, size: f.size, isUpdate };
             }));
 
             render();
@@ -166,6 +178,7 @@
             console.error(e);
             document.getElementById('state-loading').classList.add('hidden');
             document.getElementById('state-empty').classList.remove('hidden');
+            document.getElementById('subtitle').textContent = '0 prototypes';
         }
     }
 
@@ -187,6 +200,7 @@
         });
 
         document.getElementById('count-all').textContent = protos.length;
+        document.getElementById('subtitle').textContent = protos.length + ' prototype' + (protos.length !== 1 ? 's' : '');
 
         if (!items.length) {
             document.getElementById('state-empty').classList.remove('hidden');
@@ -196,41 +210,34 @@
 
         items.forEach((p, i) => {
             const days = p.date ? Math.floor((Date.now() - p.date) / 86400000) : null;
-            const dateLabel = !p.date ? '' : days === 0 ? 'Today' : days === 1 ? 'Yesterday' : days < 7 ? days + 'd ago' : p.date.toLocaleDateString('en-AU', { year: 'numeric', month: '2-digit', day: '2-digit' });
-            const isNew = days !== null && days <= 2;
-            const kb = p.size ? Math.round(p.size / 1024) + 'KB' : '';
+            const dateStr = !p.date ? '' :
+                p.date.toLocaleDateString('en-AU', { year: 'numeric', month: '2-digit', day: '2-digit' });
+            const isRecent = days !== null && days <= 7;
 
             const card = document.createElement('a');
             card.href = p.url;
-            card.className = 'proto-card card-item card-anim block rounded-xl p-4 mb-1 cursor-pointer border border-transparent hover:border-gray-100';
+            card.className = 'proto-card card-anim block p-4 mb-2 cursor-pointer bg-white';
             card.style.animationDelay = (i * 0.04) + 's';
 
             card.innerHTML = `
                 <div class="flex items-start justify-between gap-3">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-2">
-                            <span class="text-[15px] font-semibold text-axis-orange">${p.key}</span>
-                            ${isNew ? '<span class="text-[10px] font-medium text-axis-orange bg-axis-orange/8 px-1.5 py-[2px] rounded-full leading-none">New</span>' : ''}
-                        </div>
-                        <p class="text-[13px] text-axis-charcoal/80 mt-0.5 truncate">${p.summary}</p>
-                    </div>
-                    <div class="flex-shrink-0 flex flex-col items-end pt-0.5">
-                        <span class="inline-flex items-center gap-1.5 text-[12px] text-gray-400">
-                            <span class="w-[6px] h-[6px] rounded-full ${days !== null && days <= 7 ? 'bg-axis-orange' : 'bg-gray-300'}"></span>
-                            ${dateLabel}
-                        </span>
-                    </div>
+                    <span class="text-[15px] font-semibold text-axis-orange leading-tight">${p.key}</span>
+                    <span class="inline-flex items-center gap-1.5 text-[12px] text-gray-400 flex-shrink-0">
+                        <span class="w-[7px] h-[7px] rounded-full ${isRecent ? 'bg-axis-orange' : 'bg-gray-300'}"></span>
+                        ${dateStr}
+                    </span>
                 </div>
-                <div class="flex items-center gap-4 mt-3 pt-2.5 border-t border-gray-50">
-                    <span class="text-[11px] text-gray-400 flex items-center gap-1">
-                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        Interactive
+
+                <div class="mt-2">
+                    <p class="text-[13px] text-axis-charcoal/70 leading-snug">${p.summary}</p>
+                </div>
+
+                <div class="flex items-center gap-3 mt-3">
+                    <span class="inline-block text-[11px] font-medium px-2 py-[3px] rounded-md ${isRecent ? 'bg-axis-orange/10 text-axis-orange' : 'bg-gray-100 text-gray-400'}">
+                        ${isRecent ? 'New' : 'Prototype'}
                     </span>
-                    ${kb ? '<span class="text-[11px] text-gray-300">' + kb + '</span>' : ''}
-                    <span onclick="event.preventDefault();event.stopPropagation();window.open('https://axiscrm.atlassian.net/browse/' + '${p.key}', '_blank')" class="text-[11px] text-axis-slate hover:text-axis-orange font-medium transition-colors cursor-pointer flex items-center gap-1 ml-auto">
-                        Jira
-                        <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                    </span>
+                    ${p.isUpdate ? '<span class="inline-block text-[11px] font-medium px-2 py-[3px] rounded-md bg-blue-50 text-blue-400">Updated</span>' : ''}
+                    <span class="ml-auto text-[11px] text-gray-300">${p.size ? Math.round(p.size / 1024) + 'KB' : ''}</span>
                 </div>
             `;
             list.appendChild(card);
@@ -240,13 +247,17 @@
     function setFilter(f) {
         filter = f;
         document.querySelectorAll('.tab-btn').forEach(btn => {
-            const isActive = btn.id === 'tab-' + f;
-            btn.className = 'tab-btn relative px-3 pb-2.5 text-[13px] font-' + (isActive ? 'semibold' : 'medium') + ' text-' + (isActive ? 'axis-orange' : 'gray-400 hover:text-gray-500') + (f !== 'all' ? ' ml-1' : '');
-            const bar = btn.querySelector('div');
+            const id = btn.id;
+            const isActive = id === 'tab-' + f;
+            // Reset
+            btn.className = 'tab-btn relative px-3 pb-2 text-[13px] ' +
+                (isActive ? 'font-semibold text-axis-orange' : 'font-medium text-gray-400 hover:text-gray-500');
+            // Tab bar
+            const bar = btn.querySelector('.tab-bar');
             if (bar) bar.remove();
             if (isActive) {
                 const d = document.createElement('div');
-                d.className = 'absolute bottom-0 left-0 right-0 h-[2px] bg-axis-orange rounded-full';
+                d.className = 'tab-bar absolute bottom-0 left-0 right-0 h-[2px] bg-axis-orange rounded-full';
                 btn.appendChild(d);
             }
         });
@@ -256,7 +267,6 @@
     function toggleSort() {
         newestFirst = !newestFirst;
         document.getElementById('sort-text').textContent = newestFirst ? 'Newest first' : 'Oldest first';
-        document.getElementById('sort-arrow').style.transform = newestFirst ? '' : 'rotate(180deg)';
         render();
     }
 
