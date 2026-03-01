@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applications - Axis CRM</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'axis-orange': '#D34108',
+            'axis-orange-light': '#EA6921',
+            'axis-slate': '#3B485B',
+            'axis-charcoal': '#2B3544',
+            'axis-gray': '#F5F5F5',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-axis-gray min-h-screen">
+  <!-- Mobile Top Bar -->
+  <header class="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3 lg:hidden">
+    <button onclick="document.getElementById('sidebar').classList.remove('-translate-x-full');document.getElementById('sidebar-backdrop').classList.remove('hidden')" class="p-1">
+      <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+    </button>
+    <h1 class="text-base font-semibold text-gray-900 flex-1">Applications</h1>
+    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold">JN</div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside id="sidebar" class="fixed inset-y-0 left-0 w-60 bg-[#2B3544] text-white flex flex-col z-40 transform transition-transform duration-200 -translate-x-full lg:translate-x-0">
+    <div class="p-5 pb-3">
+      <div class="flex items-center gap-2 mb-5">
+        <svg class="w-10 h-10" viewBox="0 0 32 32"><path fill="#ff4405" d="M0,12.8C0,8.32,0,6.08.87,4.37c.77-1.51,1.99-2.73,3.5-3.5C6.08,0,8.32,0,12.8,0h6.4C23.68,0,25.92,0,27.63.87c1.51.77,2.73,1.99,3.5,3.5.87,1.71.87,3.95.87,8.43v6.4c0,4.48,0,6.72-.87,8.43-.77,1.51-1.99,2.73-3.5,3.5-1.71.87-3.95.87-8.43.87h-6.4c-4.48,0-6.72,0-8.43-.87-1.51-.77-2.73-1.99-3.5-3.5C0,25.92,0,23.68,0,19.2v-6.4Z"/><path fill="#fff" d="M13.43,15.89l-9.43,10.27h4.86L28,5.35h-4.99l-7.08,7.63-7.08-7.63h-4.86l9.43,10.54Z"/><path fill="#fff" d="M23.01,26.16h4.99l-9.16-9.85c-1.44,2.37-.88,4.23-.42,4.86l4.58,4.99Z"/></svg>
+        <span class="text-2xl font-bold italic text-[#D34108]">AXIS</span>
+      </div>
+      <input type="text" placeholder="Search..." class="w-full bg-[#3B485B] text-white placeholder-gray-400 rounded-lg px-3 py-2 text-sm border-0 outline-none focus:ring-1 focus:ring-[#D34108]">
+    </div>
+    <nav class="flex-1 overflow-y-auto px-3 space-y-0.5 text-[14px]">
+      <div>
+        <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B] transition-colors">
+          <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"/></svg>
+          <span class="flex-1 text-left">Tasks</span>
+          <svg class="chev w-4 h-4 opacity-50 rotate-180 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="pl-11 space-y-0.5">
+          <a href="#" class="block px-3 py-1.5 rounded-lg hover:bg-[#3B485B] text-gray-300 text-sm">All Tasks</a>
+          <a href="#" class="block px-3 py-1.5 rounded-lg hover:bg-[#3B485B] text-gray-300 text-sm">Scheduled Tasks</a>
+        </div>
+      </div>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0"/><path d="M18 8.25V12m0 0v3.75m0-3.75h3.75M18 12h-3.75"/></svg>
+        <span class="flex-1">Leads</span>
+        <span class="bg-[#D34108] text-white text-xs font-semibold px-2 py-0.5 rounded-full">607</span>
+      </a>
+      <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128H5.228A2 2 0 0 1 3.213 17.1a4.123 4.123 0 0 1 3.569-4.452M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 15.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0Z"/></svg>
+        <span class="flex-1 text-left">Clients</span>
+        <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="hidden"></div>
+      <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+        <span class="flex-1 text-left">Applications</span>
+        <svg class="chev w-4 h-4 opacity-50 transition-transform rotate-180" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="pl-11 space-y-0.5">
+        <a href="#" class="block px-3 py-1.5 rounded-lg hover:bg-[#3B485B] text-gray-300 text-sm">All Applications</a>
+        <a href="#" class="block px-3 py-1.5 rounded-lg hover:bg-[#3B485B] text-gray-300 text-sm">Draft</a>
+        <a href="#" class="block px-3 py-1.5 rounded-lg hover:bg-[#3B485B] text-gray-300 text-sm">Submitted</a>
+        <a href="#" class="block px-3 py-1.5 rounded-lg hover:bg-[#3B485B] text-gray-300 text-sm">In Progress</a>
+        <a href="#" class="block px-3 py-1.5 rounded-lg hover:bg-[#3B485B] text-gray-300 text-sm">Issued</a>
+      </div>
+      <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126Z"/><path d="M12 15.75h.007v.008H12v-.008Z"/></svg>
+        <span class="flex-1 text-left">Dishonours</span>
+        <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="hidden"></div>
+      <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z"/></svg>
+        <span class="flex-1 text-left">Claims</span>
+        <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="hidden"></div>
+      <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z"/></svg>
+        <span class="flex-1 text-left">Complaints</span>
+        <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="hidden"></div>
+      <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+        <span class="flex-1 text-left">Insurance</span>
+        <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="hidden"></div>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+        <span>Policies</span>
+      </a>
+      <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/></svg>
+        <span class="flex-1 text-left">Commissions</span>
+        <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="hidden"></div>
+      <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+        <span class="flex-1 text-left">Payments</span>
+        <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="hidden"></div>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/></svg>
+        <span>Campaigns</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+        <span>Reports</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+        <span>Exports</span>
+      </a>
+      <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+        <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.431.992a6.759 6.759 0 0 1 0 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z"/><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+        <span>Settings</span>
+      </a>
+    </nav>
+    <div class="p-3 mt-auto">
+      <button class="w-full bg-[#D34108] hover:bg-[#EA6921] text-white font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        Create New Lead
+      </button>
+    </div>
+    <div class="p-3 pt-0 border-t border-[#3B485B]">
+      <div class="flex items-center gap-3 px-2 py-2">
+        <div class="w-9 h-9 rounded-full bg-[#3B485B] flex items-center justify-center text-sm font-semibold border-2 border-[#D34108]">JN</div>
+        <div class="flex-1 min-w-0">
+          <p class="text-sm font-medium truncate">James Nicholls</p>
+          <p class="text-xs text-gray-400 truncate">james@axiscrm.co...</p>
+        </div>
+        <svg class="w-4 h-4 opacity-50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 15.75l7.5-7.5 7.5 7.5"/></svg>
+      </div>
+    </div>
+  </aside>
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden" onclick="document.getElementById('sidebar').classList.add('-translate-x-full');this.classList.add('hidden')"></div>
+
+  <!-- Main Content -->
+  <main class="lg:ml-60 min-h-screen">
+    <div class="p-4 sm:p-6 lg:p-8">
+      <!-- Page Header -->
+      <div class="mb-6 sm:mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Applications</h1>
+            <p class="text-sm text-gray-500 mt-1">Manage and track all client applications</p>
+          </div>
+          <button onclick="showModal('newApplicationModal')" class="w-full sm:w-auto bg-axis-orange hover:bg-axis-orange-light text-white font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors min-h-[44px]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4.5v15m7.5-7.5h-15"/></svg>
+            New Application
+          </button>
+        </div>
+      </div>
+
+      <!-- Statistics Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+          <div class="flex items-center">
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Total Applications</p>
+              <p class="text-2xl font-bold text-gray-900">234</p>
+            </div>
+            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center">
+            <span class="text-sm text-green-600 font-medium">+12%</span>
+            <span class="text-sm text-gray-500 ml-2">from last month</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+          <div class="flex items-center">
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">In Progress</p>
+              <p class="text-2xl font-bold text-gray-900">42</p>
+            </div>
+            <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center">
+            <span class="text-sm text-yellow-600 font-medium">18 need action</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+          <div class="flex items-center">
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Issued This Month</p>
+              <p class="text-2xl font-bold text-gray-900">17</p>
+            </div>
+            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center">
+            <span class="text-sm text-green-600 font-medium">$2.3M</span>
+            <span class="text-sm text-gray-500 ml-2">in premiums</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+          <div class="flex items-center">
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Avg. Processing Time</p>
+              <p class="text-2xl font-bold text-gray-900">14</p>
+              <p class="text-sm text-gray-500">days</p>
+            </div>
+            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center">
+            <span class="text-sm text-red-600 font-medium">+3 days</span>
+            <span class="text-sm text-gray-500 ml-2">vs target</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters and Search -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-6">
+        <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+          <div class="flex-1">
+            <div class="relative">
+              <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"/>
+              </svg>
+              <input type="text" placeholder="Search applications..." class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axis-orange focus:border-transparent">
+            </div>
+          </div>
+          
+          <div class="flex flex-col sm:flex-row gap-3">
+            <select class="px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axis-orange focus:border-transparent min-h-[44px]">
+              <option>All Statuses</option>
+              <option>Draft</option>
+              <option>Submitted</option>
+              <option>In Progress</option>
+              <option>Issued</option>
+              <option>Declined</option>
+            </select>
+            
+            <select class="px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axis-orange focus:border-transparent min-h-[44px]">
+              <option>All Products</option>
+              <option>Life Insurance</option>
+              <option>TPD</option>
+              <option>Income Protection</option>
+              <option>Trauma</option>
+            </select>
+            
+            <button onclick="toggleFilters()" class="px-4 py-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center gap-2 min-h-[44px]">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path d="M3 4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2.586a1 1 0 0 1-.293.707l-6.414 6.414a1 1 0 0 0-.293.707V17l-4 4v-6.586a1 1 0 0 0-.293-.707L3.293 7.293A1 1 0 0 1 3 6.586V4Z"/>
+              </svg>
+              Filters
+            </button>
+          </div>
+        </div>
+
+        <!-- Expandable Filters -->
+        <div id="advancedFilters" class="hidden mt-6 pt-6 border-t border-gray-200">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
+              <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axis-orange">
+                <option>Last 30 days</option>
+                <option>Last 60 days</option>
+                <option>Last 90 days</option>
+                <option>Custom range</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Adviser</label>
+              <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axis-orange">
+                <option>All Advisers</option>
+                <option>James Nicholls</option>
+                <option>Sarah Wilson</option>
+                <option>Michael Chen</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Insurer</label>
+              <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axis-orange">
+                <option>All Insurers</option>
+                <option>AIA</option>
+                <option>CommInsure</option>
+                <option>TAL</option>
+                <option>Zurich</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Premium Range</label>
+              <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-axis-orange">
+                <option>Any amount</option>
+                <option>$0 - $1,000</option>
+                <option>$1,000 - $5,000</option>
+                <option>$5,000+</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Applications Table/Cards -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <!-- Desktop Table -->
+        <div class="hidden lg:block overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-axis-slate">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                  <button class="flex items-center gap-1 hover:text-gray-300">
+                    Application
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 16l4-4 4 4m-8-8l4 4 4-4"/></svg>
+                  </button>
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Client</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Product</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                  <button class="flex items-center gap-1 hover:text-gray-300">
+                    Status
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 16l4-4 4 4m-8-8l4 4 4-4"/></svg>
+                  </button>
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                  <button class="flex items-center gap-1 hover:text-gray-300">
+                    Premium
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 16l4-4 4 4m-8-8l4 4 4-4"/></svg>
+                  </button>
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Next Action</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr class="hover:bg-gray-50 cursor-pointer" onclick="showModal('applicationDetailModal')">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">APP-2024-0234</div>
+                    <div class="text-sm text-gray-500">15 Mar 2024</div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                      <span class="text-sm font-semibold text-blue-600">SW</span>
+                    </div>
+                    <div class="ml-3">
+                      <div class="text-sm font-medium text-gray-900">Sarah Williams</div>
+                      <div class="text-sm text-gray-500">sarah@email.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">Life Insurance</div>
+                  <div class="text-sm text-gray-500">AIA Australia</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                    In Progress
+                  </span>
+                  <div class="text-xs text-gray-500 mt-1">Medical review</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  $2,450/month
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="w-2 h-2 bg-axis-orange rounded-full mr-2"></div>
+                    <span class="text-sm text-gray-900">Medical upload required</span>
+                  </div>
+                  <div class="text-xs text-gray-500 mt-1">Due in 3 days</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <button class="text-axis-orange hover:text-axis-orange-light mr-3">Edit</button>
+                  <button class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 cursor-pointer">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">APP-2024-0233</div>
+                    <div class="text-sm text-gray-500">14 Mar 2024</div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                      <span class="text-sm font-semibold text-green-600">MJ</span>
+                    </div>
+                    <div class="ml-3">
+                      <div class="text-sm font-medium text-gray-900">Michael Johnson</div>
+                      <div class="text-sm text-gray-500">michael@email.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">Income Protection</div>
+                  <div class="text-sm text-gray-500">TAL Life</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Issued
+                  </span>
+                  <div class="text-xs text-gray-500 mt-1">Policy active</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  $1,850/month
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    <span class="text-sm text-gray-900">Complete</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <button class="text-axis-orange hover:text-axis-orange-light mr-3">View</button>
+                  <button class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 cursor-pointer">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">APP-2024-0232</div>
+                    <div class="text-sm text-gray-500">12 Mar 2024</div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                      <span class="text-sm font-semibold text-purple-600">LT</span>
+                    </div>
+                    <div class="ml-3">
+                      <div class="text-sm font-medium text-gray-900">Lisa Thompson</div>
+                      <div class="text-sm text-gray-500">lisa@email.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">TPD</div>
+                  <div class="text-sm text-gray-500">CommInsure</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    Submitted
+                  </span>
+                  <div class="text-xs text-gray-500 mt-1">Pending review</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  $3,200/month
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="w-2 h-2 bg-blue-500 rounded-full mr-2"></div>
+                    <span class="text-sm text-gray-900">Awaiting insurer</span>
+                  </div>
+                  <div class="text-xs text-gray-500 mt-1">Est. 7-10 days</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <button class="text-axis-orange hover:text-axis-orange-light mr-3">Edit</button>
+                  <button class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"/>
+                    </svg>
+                  </button>
+                </td>
+              </tr>
+
+              <tr class="hover:bg-gray-50 cursor-pointer">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div>
+                    <div class="text-sm font-medium text-gray-900">APP-2024-0231</div>
+                    <div class="text-sm text-gray-500">10 Mar 2024</div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                      <span class="text-sm font-semibold text-red-600">DB</span>
+                    </div>
+                    <div class="ml-3">
+                      <div class="text-sm font-medium text-gray-900">David Brown</div>
+                      <div class="text-sm text-gray-500">david@email.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">Trauma</div>
+                  <div class="text-sm text-gray-500">Zurich</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                    Declined
+                  </span>
+                  <div class="text-xs text-gray-500 mt-1">Medical history</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  $4,100/month
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="w-2 h-2 bg-red-500 rounded-full mr-2"></div>
+                    <span class="text-sm text-gray-900">Review alternatives</span>
+                  </div>
+                  <div class="text-xs text-gray-500 mt-1">Follow up required</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                  <button class="text-axis-orange hover:text-axis-orange
