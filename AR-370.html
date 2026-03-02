@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Performance Dashboard - Axis CRM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'axis-orange': '#D34108',
+                        'axis-orange-light': '#EA6921',
+                        'axis-slate': '#3B485B',
+                        'axis-charcoal': '#2B3544',
+                        'axis-gray': '#F5F5F5',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .chart-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+        }
+        .funnel-step {
+            position: relative;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            margin-bottom: 8px;
+        }
+        .funnel-step::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -8px;
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 8px solid currentColor;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        .funnel-step:last-child::after {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <aside id="sidebar" class="fixed inset-y-0 left-0 w-60 bg-[#2B3544] text-white flex flex-col z-40 transform transition-transform duration-200 -translate-x-full lg:translate-x-0">
+        <div class="p-5 pb-3">
+            <div class="flex items-center gap-2 mb-5">
+                <svg class="w-10 h-10" viewBox="0 0 32 32"><path fill="#ff4405" d="M0,12.8C0,8.32,0,6.08.87,4.37c.77-1.51,1.99-2.73,3.5-3.5C6.08,0,8.32,0,12.8,0h6.4C23.68,0,25.92,0,27.63.87c1.51.77,2.73,1.99,3.5,3.5.87,1.71.87,3.95.87,8.43v6.4c0,4.48,0,6.72-.87,8.43-.77,1.51-1.99,2.73-3.5,3.5-1.71.87-3.95.87-8.43.87h-6.4c-4.48,0-6.72,0-8.43-.87-1.51-.77-2.73-1.99-3.5-3.5C0,25.92,0,23.68,0,19.2v-6.4Z"/><path fill="#fff" d="M13.43,15.89l-9.43,10.27h4.86L28,5.35h-4.99l-7.08,7.63-7.08-7.63h-4.86l9.43,10.54Z"/><path fill="#fff" d="M23.01,26.16h4.99l-9.16-9.85c-1.44,2.37-.88,4.23-.42,4.86l4.58,4.99Z"/></svg>
+                <span class="text-2xl font-bold italic text-[#D34108]">AXIS</span>
+            </div>
+            <input type="text" placeholder="Search..." class="w-full bg-[#3B485B] text-white placeholder-gray-400 rounded-lg px-3 py-2 text-sm border-0 outline-none focus:ring-1 focus:ring-[#D34108]">
+        </div>
+        <nav class="flex-1 overflow-y-auto px-3 space-y-0.5 text-[14px]">
+            <div>
+                <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B] transition-colors">
+                    <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12"/></svg>
+                    <span class="flex-1 text-left">Tasks</span>
+                    <svg class="chev w-4 h-4 opacity-50 rotate-180 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div class="pl-11 space-y-0.5">
+                    <a href="#" class="block px-3 py-1.5 rounded-lg hover:bg-[#3B485B] text-gray-300 text-sm">All Tasks</a>
+                    <a href="#" class="block px-3 py-1.5 rounded-lg hover:bg-[#3B485B] text-gray-300 text-sm">Scheduled Tasks</a>
+                </div>
+            </div>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0"/><path d="M18 8.25V12m0 0v3.75m0-3.75h3.75M18 12h-3.75"/></svg>
+                <span class="flex-1">Leads</span>
+                <span class="bg-[#D34108] text-white text-xs font-semibold px-2 py-0.5 rounded-full">607</span>
+            </a>
+            <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128H5.228A2 2 0 0 1 3.213 17.1a4.123 4.123 0 0 1 3.569-4.452M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 15.75a3 3 0 1 1 6 0 3 3 0 0 1-6 0Z"/></svg>
+                <span class="flex-1 text-left">Clients</span>
+                <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="hidden"></div>
+            <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+                <span class="flex-1 text-left">Applications</span>
+                <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="hidden"></div>
+            <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126Z"/><path d="M12 15.75h.007v.008H12v-.008Z"/></svg>
+                <span class="flex-1 text-left">Dishonours</span>
+                <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="hidden"></div>
+            <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25Z"/></svg>
+                <span class="flex-1 text-left">Claims</span>
+                <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="hidden"></div>
+            <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z"/></svg>
+                <span class="flex-1 text-left">Complaints</span>
+                <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="hidden"></div>
+            <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+                <span class="flex-1 text-left">Insurance</span>
+                <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="hidden"></div>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
+                <span>Policies</span>
+            </a>
+            <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/></svg>
+                <span class="flex-1 text-left">Commissions</span>
+                <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="hidden"></div>
+            <button onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('.chev').classList.toggle('rotate-180')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z"/></svg>
+                <span class="flex-1 text-left">Payments</span>
+                <svg class="chev w-4 h-4 opacity-50 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="hidden"></div>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 1 1 0-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 0 1-1.44-4.282m3.102.069a18.03 18.03 0 0 1-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 0 1 8.835 2.535M10.34 6.66a23.847 23.847 0 0 0 8.835-2.535m0 0A23.74 23.74 0 0 0 18.795 3m.38 1.125a23.91 23.91 0 0 1 1.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 0 0 1.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 0 1 0 3.46"/></svg>
+                <span>Campaigns</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B] bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+                <span>Reports</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg>
+                <span>Exports</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#3B485B]">
+                <svg class="w-5 h-5 opacity-70" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.431.992a6.759 6.759 0 0 1 0 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281Z"/><path d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/></svg>
+                <span>Settings</span>
+            </a>
+        </nav>
+        <div class="p-3 mt-auto">
+            <button class="w-full bg-[#D34108] hover:bg-[#EA6921] text-white font-medium py-2.5 px-4 rounded-lg flex items-center justify-center gap-2 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 4.5v15m7.5-7.5h-15"/></svg>
+                Create New Lead
+            </button>
+        </div>
+        <div class="p-3 pt-0 border-t border-[#3B485B]">
+            <div class="flex items-center gap-3 px-2 py-2">
+                <div class="w-9 h-9 rounded-full bg-[#3B485B] flex items-center justify-center text-sm font-semibold border-2 border-[#D34108]">JN</div>
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-medium truncate">James Nicholls</p>
+                    <p class="text-xs text-gray-400 truncate">james@axiscrm.co...</p>
+                </div>
+                <svg class="w-4 h-4 opacity-50" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4.5 15.75l7.5-7.5 7.5 7.5"/></svg>
+            </div>
+        </div>
+    </aside>
+    <div id="sidebar-backdrop" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden" onclick="document.getElementById('sidebar').classList.add('-translate-x-full');this.classList.add('hidden')"></div>
+
+    <header class="sticky top-0 z-20 bg-white border-b border-gray-200 px-4 py-3 flex items-center gap-3 lg:hidden">
+        <button onclick="document.getElementById('sidebar').classList.remove('-translate-x-full');document.getElementById('sidebar-backdrop').classList.remove('hidden')" class="p-1">
+            <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+        </button>
+        <h1 class="text-base font-semibold text-gray-900 flex-1">My Performance</h1>
+        <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-xs font-semibold">JN</div>
+    </header>
+
+    <main class="lg:ml-60 min-h-screen bg-axis-gray">
+        <div class="px-4 py-6 sm:px-6 lg:px-8">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-xl lg:text-2xl font-semibold text-gray-900 mb-2">My Performance</h1>
+                <p class="text-sm text-gray-600">Track your applications, leads, and commission pipeline</p>
+            </div>
+
+            <!-- Time Period Selector -->
+            <div class="mb-6">
+                <select id="timePeriod" class="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-axis-orange focus:border-axis-orange min-h-[44px]" onchange="updateDashboard()">
+                    <option value="current">Current Month</option>
+                    <option value="last">Last Month</option>
+                    <option value="3months">Last 3 Months</option>
+                    <option value="12months">Last 12 Months</option>
+                </select>
+            </div>
+
+            <!-- KPI Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <!-- Applications Pipeline -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 cursor-pointer hover:shadow-md transition-shadow" onclick="showApplications()">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-2 bg-blue-50 rounded-lg">
+                            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+                            </svg>
+                        </div>
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">
+                            On Track
+                        </span>
+                    </div>
+                    <h3 class="text-sm font-medium text-gray-600 mb-1">Total Applications</h3>
+                    <div class="text-2xl font-semibold text-gray-900 mb-2">47</div>
+                    <div class="text-xs text-gray-500">
+                        <span class="text-green-600">↗ 8.3%</span> vs last month
+                    </div>
+                </div>
+
+                <!-- Commission Pipeline -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-2 bg-green-50 rounded-lg">
+                            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z"/>
+                            </svg>
+                        </div>
+                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">
+                            Strong
+                        </span>
+                    </div>
+                    <h3 class="text-sm font-medium text-gray-600 mb-1">Pending Commission</h3>
+                    <div class="text-2xl font-semibold text-gray-900 mb-2">$24,850</div>
+                    <div class="text-xs text-gray-500">
+                        Initial: $18,200 • Trail: $6,650
+                    </div>
+                </div>
+
+                <!-- Lead Conversion -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-2 bg-yellow-50 rounded-lg">
+                            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0"/>
+                            </svg>
+                        </div>
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded-full">
+                            Below Target
+                        </span>
+                    </div>
+                    <h3 class="text-sm font-medium text-gray-600 mb-1">Conversion Rate</h3>
+                    <div class="text-2xl font-semibold text-gray-900 mb-2">12.4%</div>
+                    <div class="text-xs text-gray-500">
+                        Target: 15% • <span class="text-red-600">-2.6%</span>
+                    </div>
+                </div>
+
+                <!-- Monthly Target -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="p-2 bg-axis-orange bg-opacity-10 rounded-lg">
+                            <svg class="w-6 h-6 text-axis-orange" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                                <path d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>
+                            </svg>
+                        </div>
+                        <span class="bg-axis-orange bg-opacity-10 text-axis-orange text-xs font-medium px-2 py-1 rounded-full">
+                            94%
+                        </span>
+                    </div>
+                    <h3 class="text-sm font-medium text-gray-600 mb-1">Monthly Progress</h3>
+                    <div class="text-2xl font-semibold text-gray-900 mb-2">47 / 50</div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                        <div class="bg-axis-orange h-2 rounded-full" style="width: 94%"></div>
+                    </div>
+                    <div class="text-xs text-gray-500">3 applications to target</div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Monthly Submissions Trend -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Monthly Submissions</h3>
+                        <div class="text-sm text-gray-500">Last 12 months</div>
+                    </div>
+                    <div class="chart-container mb-4">
+                        <svg class="w-full h-full" viewBox="0 0 400 200">
+                            <!-- Grid lines -->
+                            <defs>
+                                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#f3f4f6" stroke-width="1"/>
+                                </pattern>
+                            </defs>
+                            <rect width="100%" height="100%" fill="url(#grid)"/>
+                            
+                            <!-- Target line -->
+                            <line x1="40" y1="80" x2="360" y2="80" stroke="#ef4444" stroke-width="2" stroke-dasharray="5,5" opacity="0.7"/>
+                            <text x="365" y="85" fill="#ef4444" font-size="12" font-family="Inter">Target: 50</text>
+                            
+                            <!-- Data line -->
+                            <polyline points="40,120 70,110 100,130 130,100 160,95 190,115 220,90 250,85 280,105 310,75 340,65 360,70" 
+                                      fill="none" stroke="#D34108" stroke-width="3"/>
+                            
+                            <!-- Data points -->
+                            <circle cx="40" cy="120" r="4" fill="#D34108"/>
+                            <circle cx="70" cy="110" r="4" fill="#D34108"/>
+                            <circle cx="100" cy="130" r="4" fill="#D34108"/>
+                            <circle cx="130" cy="100" r="4" fill="#D34108"/>
+                            <circle cx="160" cy="95" r="4" fill="#D34108"/>
+                            <circle cx="190" cy="115" r="4" fill="#D34108"/>
+                            <circle cx="220" cy="90" r="4" fill="#D34108"/>
+                            <circle cx="250" cy="85" r="4" fill="#D34108"/>
+                            <circle cx="280" cy="105" r="4" fill="#D34108"/>
+                            <circle cx="310" cy="75" r="4" fill="#D34108"/>
+                            <circle cx="340" cy="65" r="4" fill="#D34108"/>
+                            <circle cx="360" cy="70" r="4" fill="#D34108"/>
+                            
+                            <!-- X-axis labels -->
+                            <text x="40" y="190" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter">Jan</text>
+                            <text x="100" y="190" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter">Mar</text>
+                            <text x="160" y="190" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter">May</text>
+                            <text x="220" y="190" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter">Jul</text>
+                            <text x="280" y="190" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter">Sep</text>
+                            <text x="340" y="190" text-anchor="middle" font-size="10" fill="#6b7280" font-family="Inter">Nov</text>
+                        </svg>
+                    </div>
+                    <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center gap-4">
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 bg-axis-orange rounded-full"></div>
+                                <span class="text-gray-600">Actual</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-0.5 bg-red-500"></div>
+                                <span class="text-gray-600">Target</span>
+                            </div>
+                        </div>
+                        <div class="text-gray-500">Current: 47 applications</div>
+                    </div>
+                </div>
+
+                <!-- Application Status Breakdown -->
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900">Application Pipeline</h3>
+                        <button class="text-sm text-axis-orange hover:text-axis-orange-light" onclick="showApplications()">View All</button>
+                    </div>
+                    
+                    <!-- Status breakdown -->
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100" onclick="showApplicationsByStatus('draft')">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
+                                <span class="text-sm font-medium text-gray-900">Draft</span>
+                            </div>
+                            <div class="text-sm font-semibold text-gray-900">8</div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-blue-50 rounded-lg cursor-pointer hover:bg-blue-100" onclick="showApplicationsByStatus('submitted')">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+                                <span class="text-sm font-medium text-gray-900">Submitted</span>
+                            </div>
+                            <div class="text-sm font-semibold text-gray-900">12</div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-yellow-50 rounded-lg cursor-pointer hover:bg-yellow-100" onclick="showApplicationsByStatus('underwriting')">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <span class="text-sm font-medium text-gray-900">Underwriting</span>
+                            </div>
+                            <div class="text-sm font-semibold text-gray-900">18</div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg cursor-pointer hover:bg-green-100" onclick="showApplicationsByStatus('approved')">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+                                <span class="text-sm font-medium text-gray-900">Approved</span>
+                            </div>
+                            <div class="text-sm font-semibold text-gray-900">7</div>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg cursor-pointer hover:bg-red-100" onclick="showApplicationsByStatus('declined')">
+                            <div class="flex items-center gap-3">
+                                <div class="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <span class="text-sm font-medium text-gray-900">Declined</span>
+                            </div>
+                            <div class="text-sm font-semibold text-gray-900">2</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lead Conversion Funnel -->
+            <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-semibold text-gray-900">Lead Conversion Funnel</h3>
+                    <div class="text-sm text-gray-500">Current month</div>
+                </div>
+                
+                <div class="space-y-2">
+                    <div class="funnel-step bg-blue-100" style="color: #1e40af; width: 100%;">
+                        <div>
+                            <div class="font-semibold">Leads</div>
+                            <div class="text-sm opacity-75">New prospects</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-xl">382</div>
+                            <div class="text-sm opacity-75">100%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="funnel-step bg-green-100" style="color: #15803d; width: 85%;">
+                        <div>
+                            <div class="font-semibold">Clients</div>
+                            <div class="text-sm opacity-75">Qualified prospects</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-xl">125</div>
+                            <div class="text-sm opacity-75">32.7%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="funnel-step bg-yellow-100" style="color: #ca8a04; width: 70%;">
+                        <div>
+                            <div class="font-semibold">Applications</div>
+                            <div class="text-sm opacity-75">Applications submitted</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-xl">47</div>
+                            <div class="text-sm opacity-75">12.3%</div>
+                        </div>
+                    </div>
+                    
+                    <div class="funnel-step bg-axis-orange bg-opacity-20" style="color: #D34108; width: 55%;">
+                        <div>
+                            <div class="font-semibold">Policies</div>
+                            <div class="text-sm opacity-75">Approved & in-force</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold text-xl">29</div>
+                            <div class="text-sm opacity-75">7.6%</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="text-sm text-gray-600">Lead → Client</div>
+                            <div class="text-lg font-semibold text-green-600">32.7%</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-600">Client → Application</div>
+                            <div class="text-lg font-semibold text-yellow-600">37.6%</div>
+                        </div>
+                        <div>
+                            <div class="text-sm text-gray-600">Application → Policy</div>
+                            <div class="text-lg font-semibold text-axis-orange">61.7%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Commission Pipeline Details -->
+            <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">Commission Pipeline</h3>
+                    <p class="text-sm text-gray-600 mt-1">Breakdown of pending commission by application status</p>
+                </div>
+                
+                <!-- Mobile view - Cards -->
+                <div class="lg:hidden">
+                    <div class="p-4 space-y-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="font-medium text-gray-900">APP-2024-0847</p>
+                                    <p class="text-sm text-gray-600">Sarah Chen</p>
+                                </div>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded-full">
+                                    Underwriting
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="text-gray-500">Initial:</span>
+                                    <span class="font-medium ml-1">$2,450</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Trail:</span>
+                                    <span class="font-medium ml-1">$145/mo</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Product:</span>
+                                    <span class="ml-1">Term Life</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Submitted:</span>
+                                    <span class="ml-1">Mar 15</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="font-medium text-gray-900">APP-2024-0832</p>
+                                    <p class="text-sm text-gray-600">Michael Thompson</p>
+                                </div>
+                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">
+                                    Approved
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="text-gray-500">Initial:</span>
+                                    <span class="font-medium ml-1">$3,200</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Trail:</span>
+                                    <span class="font-medium ml-1">$89/mo</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Product:</span>
+                                    <span class="ml-1">Whole Life</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Submitted:</span>
+                                    <span class="ml-1">Mar 12</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <div class="flex justify-between items-start mb-2">
+                                <div>
+                                    <p class="font-medium text-gray-900">APP-2024-0819</p>
+                                    <p class="text-sm text-gray-600">Lisa Rodriguez</p>
+                                </div>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded-full">
+                                    Underwriting
+                                </span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="text-gray-500">Initial:</span>
+                                    <span class="font-medium ml-1">$1,850</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Trail:</span>
+                                    <span class="font-medium ml-1">$67/mo</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Product:</span>
+                                    <span class="ml-1">Income Protection</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-500">Submitted:</span>
+                                    <span class="ml-1">Mar 8</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop view - Table -->
+                <div class="hidden lg:block overflow-x-auto">
+                    <table class="w-full">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Application</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Initial Comm.</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Trail Comm.</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Submitted</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr class="hover:bg-gray-50 cursor-pointer" onclick="showApplicationDetail('APP-2024-0847')">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">APP-2024-0847</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Sarah Chen</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Term Life</td>
+                                <td class="px-6 py-4 whit
